@@ -47,3 +47,4 @@ v1.0.3: 2019.04.09
 v1:     2019.03.28  Initial release
 ```
 
+**P.S.**  If you like the idea behind Sidebear, but want to try a tool with a different approach, check out OkayType’s [here](https://github.com/okay-type/GlyphviewMetricsHUD-robofontExt).
