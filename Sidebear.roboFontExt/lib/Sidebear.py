@@ -341,8 +341,11 @@ class Sidebear(Subscriber):
         if self.marginValidator(self.g) == True:
             print("margin good", self.g.name)
             print("round(self.g.angledLeftMargin)", round(self.g.angledLeftMargin))
+            print("self.w.LSB.get() 1 WHAT")
+            print("self.w.LSB.get() 1", self.w.LSB.get())
             self.w.LSB.set(str(round(self.g.angledLeftMargin)))
             self.w.RSB.set(str(round(self.g.angledRightMargin)))
+            print("self.w.LSB.get() 2", self.w.LSB.get())
         else:
             print("no margin")
             self.w.LSB.set('None')
@@ -352,32 +355,32 @@ class Sidebear(Subscriber):
 # =========================== OBSERVER RESULTS =========================== #
 
     def glyphEditorGlyphDidChangeMetrics(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("glyphEditorGlyphDidChangeMetrics")
         self.updateUI_BothSB()
         
     def glyphDidChange(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("glyphDidChange", self.g.name)
         self.updateUI_BothSB()
 
     def glyphEditorDidOpen(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("glyphEditorDidOpen")
         self.glyphHasBeenSet()
 
     def roboFontDidSwitchCurrentGlyph(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("roboFontDidSwitchCurrentGlyph")
         self.glyphHasBeenSet()
 
     def glyphEditorDidSetGlyph(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("glyphEditorDidSetGlyph")
         self.glyphHasBeenSet()
 
     def glyphEditorDidUndo(self, info):
-        self.g = info["glyph"]
+        self.g = CurrentGlyph()
         print("glyphEditorDidUndo")
         self.updateUI_BothSB()
         
@@ -432,8 +435,7 @@ class SidebearInsert(Subscriber):
         if desc[1]['label'] == title:
             del desc[1]
         desc.insert(1, item)
+        registerGlyphEditorSubscriber(Sidebear)
 
 
 registerRoboFontSubscriber(SidebearInsert)
-# registerRoboFontSubscriber(Sidebear)
-registerGlyphEditorSubscriber(Sidebear)
