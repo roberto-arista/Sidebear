@@ -39,6 +39,7 @@ Special thanks to Just van Rossum, Gustavo Ferreira, Frederik Berlaen, Frank Gri
 ### Versions
 
 ```
+v1.1.5: 2022.03.01  Sidebear keeps your last increment, and shows the right SB info immediately upon open. Attempted updating to Subscriber, but decided unnecessary!
 v1.1.1: 2020.03.16  Implemented "rounding" for more predictable results, optimized code, removed print statements
 v1.1.0: 2020.03.03  Support for italic angles. Thanks for the note, Colin Ford!
 v1.0.5: 2020.01.24

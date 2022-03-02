@@ -5,6 +5,7 @@ Installs an Inspector panel that enables one to
 quickly manipulating the current glyph’s sidebearings.
 
 Ryan Bugden
+v1.1.5: 2022.03.01
 v1.1.1: 2020.03.16
 v1.1.0: 2020.03.03
 v1.0.5: 2020.01.24
@@ -255,7 +256,7 @@ class Sidebear(object):
             self.updateUI_BothSB()
         
     def centerGlyphButtonCallback(self, sender):
-        # Note: this may change the set width by 1, in favor of symmetrical SBs
+        # Warning: This may change the set width by 1, in favor of symmetrical SBs
         if self.g != None:
             if self.marginValidator(self.g) == True:
                 with self.g.undo("Center glyph"):
@@ -326,16 +327,11 @@ class Sidebear(object):
                     self.g.angledLeftMargin += self.increment
                     self.g.angledRightMargin += self.increment
                     self.g.changed()
-                    # print("Done Open SBs")
             elif self.widthValidator(self.g) == True:
                 # print("There's a width.")
                 with self.g.undo("Open glyph width"):
                     self.g.width -= self.increment 
                     self.g.changed()
-                    # print("Done Open Width")
-            else:
-                # print('I don’t know what’s going on')
-                pass
             self.updateUI_BothSB()
         
     def incrementCallback(self, sender):
@@ -348,11 +344,10 @@ class Sidebear(object):
         setExtensionDefault(self.pref_key, self.increment)
             
     def updateUI_BothSB(self):
-        # print("UPDATING SBs")
+        # print("Updating the SBs in Sidebear’s UI")
         if self.marginValidator(self.g) == True:
             self.w.LSB.set(str(round(self.g.angledLeftMargin)))
             self.w.RSB.set(str(round(self.g.angledRightMargin)))
-            # print("self.w.LSB.get() 2", self.w.LSB.get())
         else:
             self.w.LSB.set('')
             self.w.RSB.set('')
