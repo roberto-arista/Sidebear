@@ -20,6 +20,7 @@ import os
 import vanilla
 import mojo.UI
 from mojo.events import addObserver
+from mojo.extensions import setExtensionDefault, getExtensionDefault, registerExtensionDefaults
 
 other_SB = ','
 
@@ -27,7 +28,17 @@ class Sidebear(object):
 
     def __init__(self, resources_path):
         
-        self.g = None
+        self.pref_key = 'com.ryanbugden.sidebear.increment'
+        
+        initialDefaults = {
+            self.pref_key:   2,
+            }
+        registerExtensionDefaults(initialDefaults)
+
+        try:
+            self.g = CurrentGlyph()
+        except:
+            self.g = None
     
         window_width = 255
         window_margin = 20
@@ -135,7 +146,7 @@ class Sidebear(object):
         self.w.rule = vanilla.HorizontalLine((window_margin, window_margin + row_4_y, third_width*3 + gutter*2, 1))
     
         # Increment input
-        self.increment = 2
+        self.increment = getExtensionDefault(self.pref_key, 2)
         self.w.inc_text_box = vanilla.EditText(
             (window_margin + gutter + third_width, window_margin + row_5_y, third_width, text_box_height), 
             text = "%s" % self.increment, 
@@ -178,6 +189,8 @@ class Sidebear(object):
         addObserver(self, "glyphChanged", "viewDidChangeGlyph")
         addObserver(self, "glyphChanged", "glyphWindowDidOpen")
         addObserver(self, "glyphDraw", "draw")
+
+        self.updateUI_BothSB()
 
     
 # =========================== CALLBACKS =========================== #
@@ -239,6 +252,7 @@ class Sidebear(object):
                     self.g.angledRightMargin = round(prev_LSB)
                     # print("Swapped sidebearings")
                     self.g.changed()
+            self.updateUI_BothSB()
         
     def centerGlyphButtonCallback(self, sender):
         # Note: this may change the set width by 1, in favor of symmetrical SBs
@@ -249,6 +263,7 @@ class Sidebear(object):
                     self.g.angledLeftMargin = margins_average
                     self.g.angledRightMargin = margins_average
                     self.g.changed()
+            self.updateUI_BothSB()
                 
     def equalsRSBButtonCallback(self, sender):
         # print("Starting Equals RSB")
@@ -260,6 +275,7 @@ class Sidebear(object):
                     self.g.angledLeftMargin = round(self.g.angledRightMargin)
                     self.g.changed()
                     # print("Done equals RSB")
+            self.updateUI_BothSB()
     
     def equalsLSBButtonCallback(self, sender):
         # print("Starting Equals LSB")
@@ -271,6 +287,7 @@ class Sidebear(object):
                     self.g.angledRightMargin = round(self.g.angledLeftMargin)
                     self.g.changed()
                     # print("Done equals LSB")
+            self.updateUI_BothSB()
         
     def closeSBButtonCallback(self, sender):
         # print("\nStarting Close SBs")
@@ -294,6 +311,7 @@ class Sidebear(object):
             else:
                 # print('I don’t know what’s going on')
                 pass
+            self.updateUI_BothSB()
         
         
     def openSBButtonCallback(self, sender):
@@ -318,7 +336,7 @@ class Sidebear(object):
             else:
                 # print('I don’t know what’s going on')
                 pass
-            
+            self.updateUI_BothSB()
         
     def incrementCallback(self, sender):
         prev_inc = self.increment
@@ -327,86 +345,34 @@ class Sidebear(object):
         except ValueError:
             self.increment = prev_inc
             self.w.inc_text_box.set(prev_inc)
+        setExtensionDefault(self.pref_key, self.increment)
             
-<<<<<<< HEAD
     def updateUI_BothSB(self):
-        print("UPDATING SBs")
+        # print("UPDATING SBs")
         if self.marginValidator(self.g) == True:
-            print("margin good", self.g.name)
-            print("round(self.g.angledLeftMargin)", round(self.g.angledLeftMargin))
-            print("self.w.LSB.get() 1 WHAT")
-            print("self.w.LSB.get() 1", self.w.LSB.get())
             self.w.LSB.set(str(round(self.g.angledLeftMargin)))
             self.w.RSB.set(str(round(self.g.angledRightMargin)))
-            print("self.w.LSB.get() 2", self.w.LSB.get())
-=======
-    def updateUI_BothSB(self, content=True):
-        if content == True:
-            self.w.LSB.set(round(self.g.angledLeftMargin))
-            self.w.RSB.set(round(self.g.angledRightMargin))
->>>>>>> parent of ca4946c (Update to Subscriber (broken), solve #5 and #4)
+            # print("self.w.LSB.get() 2", self.w.LSB.get())
         else:
             self.w.LSB.set('')
             self.w.RSB.set('')
         
         
-<<<<<<< HEAD
-# =========================== OBSERVER RESULTS =========================== #
 
-    def glyphEditorGlyphDidChangeMetrics(self, info):
-        self.g = CurrentGlyph()
-        print("glyphEditorGlyphDidChangeMetrics")
-        self.updateUI_BothSB()
-        
-    def glyphDidChange(self, info):
-        self.g = CurrentGlyph()
-        print("glyphDidChange", self.g.name)
-        self.updateUI_BothSB()
-
-    def glyphEditorDidOpen(self, info):
-        self.g = CurrentGlyph()
-        print("glyphEditorDidOpen")
-        self.glyphHasBeenSet()
-
-    def roboFontDidSwitchCurrentGlyph(self, info):
-        self.g = CurrentGlyph()
-        print("roboFontDidSwitchCurrentGlyph")
-        self.glyphHasBeenSet()
-
-    def glyphEditorDidSetGlyph(self, info):
-        self.g = CurrentGlyph()
-        print("glyphEditorDidSetGlyph")
-        self.glyphHasBeenSet()
-
-    def glyphEditorDidUndo(self, info):
-        self.g = CurrentGlyph()
-        print("glyphEditorDidUndo")
-        self.updateUI_BothSB()
-        
-    def glyphHasBeenSet(self):
-=======
 # =========================== OBSERVERS =========================== #
         
     def glyphChanged(self, info):
-        self.g = CurrentGlyph()
->>>>>>> parent of ca4946c (Update to Subscriber (broken), solve #5 and #4)
+        self.g = info['glyph']
         if self.glyphNameValidator(self.g) == True:
             #print('Glyph name validator was passed: %s' % g.name)
             self.w.curr_glyph_note.set(self.g.name)
-            if self.marginValidator(self.g) == True:
-                #print('Margin validator was passed: %s' % g.name)
-                self.updateUI_BothSB()
-            else:
-                self.updateUI_BothSB(False)
         else:
             self.w.curr_glyph_note.set('None')
-            self.updateUI_BothSB(False)
+
+        self.updateUI_BothSB()
             
     def glyphDraw(self, view):
-        if self.marginValidator(self.g) == True:
-            self.updateUI_BothSB()
-        else:
-            self.updateUI_BothSB(False)
+        self.updateUI_BothSB()
         
         
 # # =========================== VALIDATION =========================== #
@@ -446,16 +412,6 @@ class SidebearInsert:
 
     def inspectorWindowWillShowDescriptions(self, notification):
         title = "Sidebear"
-<<<<<<< HEAD
-        item = dict(label=title, view=Sidebear().w, size=Sidebear().window_height, collapsed=False, canResize=False)
-        if desc[1]['label'] == title:
-            del desc[1]
-        desc.insert(1, item)
-        registerGlyphEditorSubscriber(Sidebear)
-
-
-registerRoboFontSubscriber(SidebearInsert)
-=======
         bear = Sidebear(self.resources_path)
         item = dict(label=title, view=bear.w, size=bear.window_height, collapsed=False, canResize=False)
         if notification["descriptions"][1]['label'] == title:
@@ -463,4 +419,3 @@ registerRoboFontSubscriber(SidebearInsert)
         notification["descriptions"].insert(1, item)
 
 SidebearInsert()
->>>>>>> parent of ca4946c (Update to Subscriber (broken), solve #5 and #4)
