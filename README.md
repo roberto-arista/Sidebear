@@ -39,13 +39,14 @@ Special thanks to Just van Rossum, Gustavo Ferreira, Frederik Berlaen, Frank Gri
 ### Versions
 
 ```
-v1.1.5: 2022.03.01  Sidebear keeps your last increment, and shows the right SB info immediately upon open. Attempted updating to Subscriber, but decided unnecessary!
-v1.1.1: 2020.03.16  Implemented "rounding" for more predictable results, optimized code, removed print statements
-v1.1.0: 2020.03.03  Support for italic angles. Thanks for the note, Colin Ford!
-v1.0.5: 2020.01.24
-v1.0.4: 2019.05.07
-v1.0.3: 2019.04.09
-v1:     2019.03.28  Initial release
+1.1.6: 2023.05.31  Refined Mechanic icon
+1.1.5: 2022.03.01  Sidebear keeps your last increment, and shows the right SB info immediately upon open. Attempted updating to Subscriber, but decided unnecessary!
+1.1.1: 2020.03.16  Implemented "rounding" for more predictable results, optimized code, removed print statements
+1.1.0: 2020.03.03  Support for italic angles. Thanks for the note, Colin Ford!
+1.0.5: 2020.01.24
+1.0.4: 2019.05.07
+1.0.3: 2019.04.09
+1:     2019.03.28  Initial release
 ```
 
 **P.S.**  If you like the idea behind Sidebear, but want to try a tool with a different approach, check out OkayType’s [here](https://github.com/okay-type/GlyphviewMetricsHUD-robofontExt).

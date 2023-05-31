@@ -5,6 +5,7 @@ Installs an Inspector panel that enables one to
 quickly manipulating the current glyph’s sidebearings.
 
 Ryan Bugden
+v1.1.6: 2023.05.31
 v1.1.5: 2022.03.01
 v1.1.1: 2020.03.16
 v1.1.0: 2020.03.03
