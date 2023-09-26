@@ -375,24 +375,28 @@ class Sidebear(object):
         
     def marginValidator(self, glyph):
         try:
-            if glyph.angledLeftMargin == None:
-                return False
-            else:
+            if glyph.leftMargin:
                 return True
+            else:
+                return False
         except AttributeError:
             return False
             
     def widthValidator(self, glyph):
         try:
-            v = glyph.width
-            return True
+            if glyph.width:
+                return True
+            else:
+                return False
         except TypeError:
             return False
             
     def glyphNameValidator(self, glyph):
         try:
-            v = glyph.name
-            return True
+            if glyph.name:
+                return True
+            else:
+                return False
         except AttributeError:
             return False
             
