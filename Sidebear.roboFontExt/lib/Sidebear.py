@@ -22,6 +22,7 @@ import os
 import vanilla
 import mojo.UI
 from mojo.events import addObserver
+from mojo.UI import inDarkMode
 from mojo.extensions import setExtensionDefault, getExtensionDefault, registerExtensionDefaults
 
 OTHER_SB = ','
@@ -32,6 +33,8 @@ class Sidebear(object):
     def __init__(self, resources_path):
         
         self.pref_key = 'com.ryanbugden.sidebear.increment'
+
+        self.resources_path = resources_path
         
         initialDefaults = {
             self.pref_key:   2,
@@ -46,9 +49,10 @@ class Sidebear(object):
         window_width = 255
         window_margin = 20
         gutter = 25
-        vert_gutter = 12
+        vert_gutter = 10
         rule_gutter = vert_gutter - 2
-        text_box_height = 20
+        text_box_height = 22
+        image_button_height = text_box_height + 2
         row_1_y = -14
         row_2_y = row_1_y + vert_gutter + text_box_height - 5
         row_3_y = row_2_y + vert_gutter + text_box_height
@@ -95,8 +99,7 @@ class Sidebear(object):
             
         # Swap SB button
         self.w.swap_SB = vanilla.ImageButton(
-            (window_margin + third_width + gutter, window_margin + row_2_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_Swap.pdf',
+            (window_margin + third_width + gutter, window_margin + row_2_y, third_width, image_button_height), 
             callback = self.swapSBButtonCallback, 
             sizeStyle = 'regular'
             )
@@ -117,8 +120,7 @@ class Sidebear(object):
     
         # Center Glyph button
         self.w.center_glyph = vanilla.ImageButton(
-            (window_margin + third_width + gutter, window_margin + row_3_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_Center.pdf',
+            (window_margin + third_width + gutter, window_margin + row_3_y, third_width, image_button_height), 
             callback = self.centerGlyphButtonCallback, 
             sizeStyle = 'regular'
             )
@@ -131,16 +133,14 @@ class Sidebear(object):
             
         # Equals RSB button
         self.w.equals_RSB = vanilla.ImageButton(
-            (window_margin, window_margin + row_3_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_EqualRSB.pdf',
+            (window_margin, window_margin + row_3_y, third_width, image_button_height), 
             callback = self.equalsRSBButtonCallback, 
             sizeStyle = 'regular'
             )
             
         # Equals LSB button
         self.w.equals_LSB = vanilla.ImageButton(
-            (window_margin + third_width*2 + gutter*2, window_margin + row_3_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_EqualLSB.pdf',
+            (window_margin + third_width*2 + gutter*2, window_margin + row_3_y, third_width, image_button_height), 
             callback = self.equalsLSBButtonCallback, 
             sizeStyle = 'regular'
             )
@@ -167,16 +167,14 @@ class Sidebear(object):
         
         # Close SBs
         self.w.close_SB = vanilla.ImageButton(
-            (window_margin, window_margin + row_5_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_Close.pdf',
+            (window_margin, window_margin + row_5_y, third_width, image_button_height), 
             callback = self.closeSBButtonCallback, 
             sizeStyle = 'regular'
             )
         
         # Open SBs
         self.w.open_SB = vanilla.ImageButton(
-            (window_margin + third_width*2 + gutter*2, window_margin + row_5_y, third_width, text_box_height), 
-            imagePath = resources_path + '/_icon_Open.pdf',
+            (window_margin + third_width*2 + gutter*2, window_margin + row_5_y, third_width, image_button_height), 
             callback = self.openSBButtonCallback, 
             sizeStyle = 'regular'
             )
@@ -187,11 +185,17 @@ class Sidebear(object):
             "Increment",
             sizeStyle = "mini", 
             alignment = "center")
+
+        for button in [self.w.open_SB, self.w.close_SB, self.w.equals_LSB, self.w.equals_RSB, self.w.center_glyph, self.w.swap_SB]:
+            ns_button = button.getNSButton()
+            ns_button.setBezelStyle_(8)
+        self.set_button_images()
             
         addObserver(self, "glyphChanged", "currentGlyphChanged")
         addObserver(self, "glyphChanged", "viewDidChangeGlyph")
         addObserver(self, "glyphChanged", "glyphWindowDidOpen")
         addObserver(self, "glyphDraw", "draw")
+        addObserver(self, "appearanceChanged", "appearanceChanged")
 
         self.updateUI_BothSB()
 
@@ -218,6 +222,21 @@ class Sidebear(object):
         except:
             result = None
         return result
+
+    def set_button_images(self):
+        buttons_and_images = {
+                self.w.swap_SB:      self.resources_path + '/_icon_Swap.pdf',
+                self.w.center_glyph: self.resources_path + '/_icon_Center.pdf',
+                self.w.equals_RSB:   self.resources_path + '/_icon_EqualRSB.pdf',
+                self.w.equals_LSB:   self.resources_path + '/_icon_EqualLSB.pdf',
+                self.w.close_SB:     self.resources_path + '/_icon_Close.pdf',
+                self.w.open_SB:      self.resources_path + '/_icon_Open.pdf',
+            }   
+        for button, image_path in buttons_and_images.items():
+            if inDarkMode():
+                button.setImage(image_path.replace(".pdf", "-dark.pdf"))
+            else:
+                button.setImage(image_path)
 
     
 # =========================== CALLBACKS =========================== #
@@ -389,7 +408,9 @@ class Sidebear(object):
             
     def glyphDraw(self, view):
         self.updateUI_BothSB()
-        
+
+    def appearanceChanged(self, notification):
+        self.set_button_images()
         
 # # =========================== VALIDATION =========================== #
         
