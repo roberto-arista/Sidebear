@@ -2,7 +2,7 @@
 
 ![](./_images/Sidebear_Icon.png)
 <br />
-Robofont extension for manipulating your glyph’s sidebearings. 
+A RoboFont extension for quickly manipulating your glyph’s sidebearings. 
 <br />
 Sidebear installs itself in your Inspector, underneath the Glyph Info pane.
 <br />
@@ -11,7 +11,7 @@ Sidebear installs itself in your Inspector, underneath the Glyph Info pane.
 ![](./_images/Sidebear_screen.png)
 
 ## Actions include:
-`Enter Desired SB` You may enter numerical values or glyph names. If you place a comma `,` before or after the glyph name, the opposite SB will be matched. (For example, `,n` input on the LSB of glyph `u`  will match the RSB of the `n`.)
+`Enter Desired SB` You may enter numerical values or glyph names. If you place a comma `,` before or after the glyph name, the opposite SB will be matched (e.g. `,n` input on the LSB of glyph `u`  will match the RSB of the `n`.). Also, like the native Glyph panel, you can input glyph math (e.g. `(H + O)/2 + 2`)
 <br />
 `Swap SBs`
 <br /><br />
@@ -39,6 +39,7 @@ Special thanks to Just van Rossum, Gustavo Ferreira, Frederik Berlaen, Frank Gri
 ### Versions
 
 ```
+2.0:   2023.10.23  Support glyph math (e.g. H+10). Sleeker UI, legible in dark mode. 
 1.1.6: 2023.05.31  Refined Mechanic icon
 1.1.5: 2022.03.01  Sidebear keeps your last increment, and shows the right SB info immediately upon open. Attempted updating to Subscriber, but decided unnecessary!
 1.1.1: 2020.03.16  Implemented "rounding" for more predictable results, optimized code, removed print statements
