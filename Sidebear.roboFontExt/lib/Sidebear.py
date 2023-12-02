@@ -391,7 +391,6 @@ class Sidebear(object):
         else:
             self.w.LSB.set('')
             self.w.RSB.set('')
-        if self.g != None: self.g.changed()
 
 
 # =========================== OBSERVERS =========================== #
