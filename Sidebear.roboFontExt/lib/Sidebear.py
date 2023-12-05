@@ -266,6 +266,7 @@ class Sidebear(object):
                 except ValueError:
                     pass
             self.updateUI_BothSB()
+            self.g.changed()
         
     def editRSBCallback(self, sender):
         if self.g != None:
@@ -291,6 +292,7 @@ class Sidebear(object):
                 except ValueError:
                     pass
             self.updateUI_BothSB()
+            self.g.changed()
         
     def swapSBButtonCallback(self, sender):
         if self.g != None:
@@ -302,6 +304,7 @@ class Sidebear(object):
                     self.g.angledRightMargin = round(prev_LSB)
                     # print("Swapped sidebearings")
             self.updateUI_BothSB()
+            self.g.changed()
         
     def centerGlyphButtonCallback(self, sender):
         # Warning: This may change the set width by 1, in favor of symmetrical SBs
@@ -312,6 +315,7 @@ class Sidebear(object):
                     self.g.angledLeftMargin = margins_average
                     self.g.angledRightMargin = margins_average
             self.updateUI_BothSB()
+            self.g.changed()
                 
     def equalsRSBButtonCallback(self, sender):
         # print("Starting Equals RSB")
@@ -323,6 +327,7 @@ class Sidebear(object):
                     self.g.angledLeftMargin = round(self.g.angledRightMargin)
                     # print("Done equals RSB")
             self.updateUI_BothSB()
+            self.g.changed()
     
     def equalsLSBButtonCallback(self, sender):
         # print("Starting Equals LSB")
@@ -334,6 +339,7 @@ class Sidebear(object):
                     self.g.angledRightMargin = round(self.g.angledLeftMargin)
                     # print("Done equals LSB")
             self.updateUI_BothSB()
+            self.g.changed()
         
     def closeSBButtonCallback(self, sender):
         # print("\nStarting Close SBs")
@@ -356,6 +362,7 @@ class Sidebear(object):
                 # print('I don’t know what’s going on')
                 pass
             self.updateUI_BothSB()
+            self.g.changed()
         
     def openSBButtonCallback(self, sender):
         # print("\nStarting Open SBs")
@@ -373,6 +380,7 @@ class Sidebear(object):
                 with self.g.undo("Open glyph width"):
                     self.g.width -= self.increment 
             self.updateUI_BothSB()
+            self.g.changed()
         
     def incrementCallback(self, sender):
         prev_inc = self.increment
